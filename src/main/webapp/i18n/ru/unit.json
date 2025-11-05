@@ -1,0 +1,34 @@
+{
+  "strOyKakApp": {
+    "unit": {
+      "home": {
+        "title": "Units",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Unit",
+        "createOrEditLabel": "Создать или отредактировать Unit",
+        "notFound": "Units не найдено"
+      },
+      "created": "Новый Unit создан с идентификатором {{ param }}",
+      "updated": "Unit обновлен с идентификатором {{ param }}",
+      "deleted": "Unit удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Unit {{ id }}?"
+      },
+      "detail": {
+        "title": "Unit"
+      },
+      "id": "ID",
+      "location": "Location",
+      "price": "Price",
+      "description": "Description",
+      "area": "Area",
+      "floor": "Floor",
+      "type": "Type",
+      "status": "Status",
+      "completionDate": "Completion Date",
+      "photos": "Photos",
+      "bookings": "Bookings",
+      "project": "Project"
+    }
+  }
+}

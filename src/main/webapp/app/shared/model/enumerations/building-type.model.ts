@@ -1,0 +1,5 @@
+export enum BuildingType {
+  MULTI_APARTMENT = 'MULTI_APARTMENT',
+
+  PRIVATE_HOUSE_GROUP = 'PRIVATE_HOUSE_GROUP',
+}

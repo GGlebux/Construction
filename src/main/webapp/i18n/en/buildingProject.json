@@ -1,0 +1,31 @@
+{
+  "strOyKakApp": {
+    "buildingProject": {
+      "home": {
+        "title": "Building Projects",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Building Project",
+        "createOrEditLabel": "Create or edit a Building Project",
+        "notFound": "No Building Projects found"
+      },
+      "created": "A new Building Project is created with identifier {{ param }}",
+      "updated": "A Building Project is updated with identifier {{ param }}",
+      "deleted": "A Building Project is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Building Project {{ id }}?"
+      },
+      "detail": {
+        "title": "Building Project"
+      },
+      "id": "ID",
+      "name": "Name",
+      "type": "Type",
+      "address": "Address",
+      "description": "Description",
+      "minPrice": "Min Price",
+      "completionDate": "Completion Date",
+      "units": "Units",
+      "photos": "Photos"
+    }
+  }
+}

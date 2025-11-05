@@ -1,0 +1,34 @@
+{
+  "strOyKakApp": {
+    "unit": {
+      "home": {
+        "title": "Units",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Unit",
+        "createOrEditLabel": "Create or edit a Unit",
+        "notFound": "No Units found"
+      },
+      "created": "A new Unit is created with identifier {{ param }}",
+      "updated": "A Unit is updated with identifier {{ param }}",
+      "deleted": "A Unit is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Unit {{ id }}?"
+      },
+      "detail": {
+        "title": "Unit"
+      },
+      "id": "ID",
+      "location": "Location",
+      "price": "Price",
+      "description": "Description",
+      "area": "Area",
+      "floor": "Floor",
+      "type": "Type",
+      "status": "Status",
+      "completionDate": "Completion Date",
+      "photos": "Photos",
+      "bookings": "Bookings",
+      "project": "Project"
+    }
+  }
+}

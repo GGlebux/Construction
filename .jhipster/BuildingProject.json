@@ -1,0 +1,58 @@
+{
+  "annotations": {
+    "changelogDate": "20251105135703"
+  },
+  "applications": ["str_OY_kak"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "BuildingType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "MULTI_APARTMENT,PRIVATE_HOUSE_GROUP"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "minPrice",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "completionDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "BuildingProject",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "unit",
+      "otherEntityRelationshipName": "project",
+      "relationshipName": "units",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "photo",
+      "otherEntityRelationshipName": "project",
+      "relationshipName": "photos",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

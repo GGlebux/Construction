@@ -1,0 +1,30 @@
+{
+  "strOyKakApp": {
+    "booking": {
+      "home": {
+        "title": "Bookings",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Booking",
+        "createOrEditLabel": "Создать или отредактировать Booking",
+        "notFound": "Bookings не найдено"
+      },
+      "created": "Новый Booking создан с идентификатором {{ param }}",
+      "updated": "Booking обновлен с идентификатором {{ param }}",
+      "deleted": "Booking удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Booking {{ id }}?"
+      },
+      "detail": {
+        "title": "Booking"
+      },
+      "id": "ID",
+      "bookingDate": "Booking Date",
+      "status": "Status",
+      "expirationDate": "Expiration Date",
+      "note": "Note",
+      "price": "Price",
+      "client": "Client",
+      "unit": "Unit"
+    }
+  }
+}

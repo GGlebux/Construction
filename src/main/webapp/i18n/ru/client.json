@@ -1,0 +1,27 @@
+{
+  "strOyKakApp": {
+    "client": {
+      "home": {
+        "title": "Clients",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Client",
+        "createOrEditLabel": "Создать или отредактировать Client",
+        "notFound": "Clients не найдено"
+      },
+      "created": "Новый Client создан с идентификатором {{ param }}",
+      "updated": "Client обновлен с идентификатором {{ param }}",
+      "deleted": "Client удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Client {{ id }}?"
+      },
+      "detail": {
+        "title": "Client"
+      },
+      "id": "ID",
+      "fullName": "Full Name",
+      "email": "Email",
+      "user": "User",
+      "bookings": "Bookings"
+    }
+  }
+}

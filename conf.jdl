@@ -1,0 +1,89 @@
+application {
+    config {
+        baseName str_OY_kak,
+        applicationType monolith,
+        packageName com.construction,
+        authenticationType jwt,
+        prodDatabaseType postgresql,
+        buildTool maven,
+        clientFramework react,
+        languages [ru, en]
+    }
+    entities *
+}
+
+enum BuildingType {
+    MULTI_APARTMENT,
+    PRIVATE_HOUSE_GROUP
+}
+
+enum UnitType {
+    STUDIO, ONE_ROOM, TWO_ROOM, THREE_ROOM, FOUR_ROOM, FIVE_ROOM,
+    HOUSE_XXS, HOUSE_M, HOUSE_L, HOUSE_XL, VILLA
+}
+
+enum UnitStatus {
+    AVAILABLE, RESERVED
+}
+
+enum BookingStatus {
+    ACTIVE,
+    CANCELLED
+}
+
+entity BuildingProject {
+    name String required,
+    type BuildingType required,
+    address String required,
+    description String,
+    minPrice BigDecimal,
+    completionDate Instant,
+}
+
+entity Unit {
+    location String,
+    price BigDecimal required,
+    description String,
+    area BigDecimal required,
+    floor Integer required,
+    type UnitType required,
+    status UnitStatus required,
+    completionDate Instant
+}
+
+entity Photo {
+    url String required
+}
+
+entity Client {
+    fullName String required,
+    email String required
+}
+
+entity Booking {
+    bookingDate Instant required,
+    status BookingStatus required,
+    expirationDate Instant,
+    note String,
+    price BigDecimal required
+}
+
+relationship OneToMany {
+    BuildingProject{units} to Unit{project required},
+    BuildingProject{photos} to Photo{project},
+    Unit{photos} to Photo{unit}
+}
+
+relationship OneToMany {
+    Client{bookings} to Booking{client required},
+    Unit{bookings} to Booking{unit required}
+}
+
+relationship OneToOne {
+    Client{user(login)} to User with builtInEntity
+}
+
+paginate BuildingProject, Unit with pagination
+service all with serviceClass
+dto all with mapstruct
+filter BuildingProject, Unit, Booking, Client

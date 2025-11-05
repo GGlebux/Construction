@@ -1,0 +1,20 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 0,
+    "applicationType": "monolith",
+    "authenticationType": "jwt",
+    "baseName": "str_OY_kak",
+    "buildTool": "maven",
+    "clientFramework": "react",
+    "devServerPort": 9060,
+    "entities": ["BuildingProject", "Unit", "Photo", "Client", "Booking"],
+    "jhipsterVersion": "8.4.0",
+    "jwtSecretKey": "YjUyYmRkMmFkOTRhOWM0YzczNDk2MDE1NThiNTk0ZjM5M2RhY2NjNTYwODljODY5ZWRhNDRkMjMxNTU1OWZiMTM1NTEwZjdmZGRjZjQwYTIwZDMxMDAzMjIyYTM2NzZkNGE5ODc0NWNjMDU2YWUzNTkzMjExZTMzMmFiNDhiYmU=",
+    "languages": ["en", "ru"],
+    "lastLiquibaseTimestamp": 1762351263000,
+    "nativeLanguage": "en",
+    "packageFolder": "com/construction",
+    "packageName": "com.construction",
+    "prodDatabaseType": "postgresql"
+  }
+}

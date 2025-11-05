@@ -1,0 +1,31 @@
+{
+  "strOyKakApp": {
+    "buildingProject": {
+      "home": {
+        "title": "Building Projects",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Building Project",
+        "createOrEditLabel": "Создать или отредактировать Building Project",
+        "notFound": "Building Projects не найдено"
+      },
+      "created": "Новый Building Project создан с идентификатором {{ param }}",
+      "updated": "Building Project обновлен с идентификатором {{ param }}",
+      "deleted": "Building Project удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Building Project {{ id }}?"
+      },
+      "detail": {
+        "title": "Building Project"
+      },
+      "id": "ID",
+      "name": "Name",
+      "type": "Type",
+      "address": "Address",
+      "description": "Description",
+      "minPrice": "Min Price",
+      "completionDate": "Completion Date",
+      "units": "Units",
+      "photos": "Photos"
+    }
+  }
+}
