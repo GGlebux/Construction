@@ -26,4 +26,12 @@ public interface BookingMapper extends EntityMapper<BookingDTO, Booking> {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     UnitDTO toDtoUnitId(Unit unit);
+
+    @Override
+    @Mapping(target = "unit", ignore = true)
+    Booking toEntity(BookingDTO dto);
+
+    @Override
+    @Mapping(target = "unit", ignore = true)
+    void partialUpdate(@MappingTarget Booking entity, BookingDTO dto);
 }

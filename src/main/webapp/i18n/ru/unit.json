@@ -2,30 +2,30 @@
   "strOyKakApp": {
     "unit": {
       "home": {
-        "title": "Units",
+        "title": "Единица",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Unit",
-        "createOrEditLabel": "Создать или отредактировать Unit",
-        "notFound": "Units не найдено"
+        "createLabel": "Создать новую Единица",
+        "createOrEditLabel": "Создать или отредактировать Единица",
+        "notFound": "Единицы не найдены"
       },
-      "created": "Новый Unit создан с идентификатором {{ param }}",
-      "updated": "Unit обновлен с идентификатором {{ param }}",
-      "deleted": "Unit удален с идентификатором {{ param }}",
+      "created": "Новый Единица создана с идентификатором {{ param }}",
+      "updated": "Единица обновлена с идентификатором {{ param }}",
+      "deleted": "Единица удалена с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Unit {{ id }}?"
+        "question": "Вы уверены что хотите удалить Единица {{ id }}?"
       },
       "detail": {
-        "title": "Unit"
+        "title": "Единица"
       },
       "id": "ID",
-      "location": "Location",
-      "price": "Price",
-      "description": "Description",
-      "area": "Area",
-      "floor": "Floor",
-      "type": "Type",
-      "status": "Status",
-      "completionDate": "Completion Date",
+      "location": "Расположение",
+      "price": "Цена",
+      "description": "Описание",
+      "area": "Площадь",
+      "floor": "Этаж",
+      "type": "Тип",
+      "status": "Статус",
+      "completionDate": "Дата сдачи",
       "photos": "Photos",
       "bookings": "Bookings",
       "project": "Project"

@@ -1,7 +1,11 @@
 package com.construction.service;
 
-import com.construction.domain.*; // for static metamodels
+import static org.hibernate.Hibernate.initialize;
+
 import com.construction.domain.BuildingProject;
+import com.construction.domain.BuildingProject_;
+import com.construction.domain.Photo_;
+import com.construction.domain.Unit_;
 import com.construction.repository.BuildingProjectRepository;
 import com.construction.service.criteria.BuildingProjectCriteria;
 import com.construction.service.dto.BuildingProjectDTO;
@@ -47,7 +51,12 @@ public class BuildingProjectQueryService extends QueryService<BuildingProject> {
     public Page<BuildingProjectDTO> findByCriteria(BuildingProjectCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<BuildingProject> specification = createSpecification(criteria);
-        return buildingProjectRepository.findAll(specification, page).map(buildingProjectMapper::toDto);
+        Page<BuildingProject> paged = buildingProjectRepository.findAll(specification, page);
+        paged.forEach(project -> {
+            initialize(project.getUnits());
+            initialize(project.getPhotos());
+        });
+        return paged.map(buildingProjectMapper::toDto);
     }
 
     /**

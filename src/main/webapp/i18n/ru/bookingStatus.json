@@ -2,8 +2,8 @@
   "strOyKakApp": {
     "BookingStatus": {
       "null": "",
-      "ACTIVE": "ACTIVE",
-      "CANCELLED": "CANCELLED"
+      "ACTIVE": "АКТИВНАЯ",
+      "CANCELLED": "ОТМЕНЕННАЯ"
     }
   }
 }

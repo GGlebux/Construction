@@ -1,7 +1,8 @@
 package com.construction.service;
 
-import com.construction.domain.*; // for static metamodels
-import com.construction.domain.Unit;
+import static org.hibernate.Hibernate.initialize;
+
+import com.construction.domain.*;
 import com.construction.repository.UnitRepository;
 import com.construction.service.criteria.UnitCriteria;
 import com.construction.service.dto.UnitDTO;
@@ -47,7 +48,11 @@ public class UnitQueryService extends QueryService<Unit> {
     public Page<UnitDTO> findByCriteria(UnitCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Unit> specification = createSpecification(criteria);
-        return unitRepository.findAll(specification, page).map(unitMapper::toDto);
+        unitRepository.findAll().forEach(unit -> log.error("asdq size = {}", unit.getPhotos().size()));
+        Page<Unit> paged = unitRepository.findAll(specification, page);
+        paged.forEach(unit -> log.error("photos size = {}", unit.getPhotos().size()));
+        paged.forEach(unit -> initialize(unit.getPhotos()));
+        return paged.map(unitMapper::toDto);
     }
 
     /**

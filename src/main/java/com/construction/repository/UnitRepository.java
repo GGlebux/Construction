@@ -1,6 +1,7 @@
 package com.construction.repository;
 
 import com.construction.domain.Unit;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface UnitRepository extends JpaRepository<Unit, Long>, JpaSpecificationExecutor<Unit> {}
+public interface UnitRepository extends JpaRepository<Unit, Long>, JpaSpecificationExecutor<Unit> {
+    @Override
+    @EntityGraph(attributePaths = { "photos" })
+    List<Unit> findAll();
+}

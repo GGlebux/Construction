@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "Str_OY_kak",
+    "title": "стр_ОЙ_как",
     "browsehappy": "Ваш браузер <strong>устарел</strong>. Пожалуйста <a href=\"http://browsehappy.com/?locale=ru\">обновите ваш браузер</a>.",
     "menu": {
       "home": "Главная",
@@ -8,11 +8,11 @@
       "entities": {
         "main": "Сущности",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "buildingProject": "Building Project",
-        "unit": "Unit",
-        "photo": "Photo",
-        "client": "Client",
-        "booking": "Booking"
+        "buildingProject": "Строительный объект",
+        "unit": "Единица",
+        "photo": "Фото",
+        "client": "Клиент",
+        "booking": "Бронирование"
       },
       "account": {
         "main": "Профиль",
@@ -147,5 +147,5 @@
       "not.image": "Файл должен был быть изображением, но было установлено, что \"{{ fileType }}\""
     }
   },
-  "footer": "Это ваш футтер"
+  "footer": "В подвале пусто..."
 }

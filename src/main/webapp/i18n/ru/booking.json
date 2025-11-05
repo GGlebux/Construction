@@ -2,27 +2,27 @@
   "strOyKakApp": {
     "booking": {
       "home": {
-        "title": "Bookings",
+        "title": "Бронирование",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Booking",
-        "createOrEditLabel": "Создать или отредактировать Booking",
-        "notFound": "Bookings не найдено"
+        "createLabel": "Создать новую Бронь",
+        "createOrEditLabel": "Создать или отредактировать Бронь",
+        "notFound": "Броней не найдено"
       },
-      "created": "Новый Booking создан с идентификатором {{ param }}",
-      "updated": "Booking обновлен с идентификатором {{ param }}",
-      "deleted": "Booking удален с идентификатором {{ param }}",
+      "created": "Новая Бронь создана с идентификатором {{ param }}",
+      "updated": "Бронь обновлена с идентификатором {{ param }}",
+      "deleted": "Бронь удалена с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Booking {{ id }}?"
+        "question": "Вы уверены что хотите удалить Бронь {{ id }}?"
       },
       "detail": {
-        "title": "Booking"
+        "title": "Бронь"
       },
       "id": "ID",
-      "bookingDate": "Booking Date",
-      "status": "Status",
-      "expirationDate": "Expiration Date",
-      "note": "Note",
-      "price": "Price",
+      "bookingDate": "Дата брони",
+      "status": "Статус",
+      "expirationDate": "Срок годности",
+      "note": "Детали",
+      "price": "Цена",
       "client": "Client",
       "unit": "Unit"
     }

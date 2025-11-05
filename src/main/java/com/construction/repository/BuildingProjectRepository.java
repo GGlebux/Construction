@@ -1,7 +1,8 @@
 package com.construction.repository;
 
 import com.construction.domain.BuildingProject;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**

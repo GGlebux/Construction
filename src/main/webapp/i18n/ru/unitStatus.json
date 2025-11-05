@@ -1,9 +1,9 @@
 {
   "strOyKakApp": {
     "UnitStatus": {
-      "null": "",
-      "AVAILABLE": "AVAILABLE",
-      "RESERVED": "RESERVED"
+      "null": "НЕТ",
+      "AVAILABLE": "СВОБОДНО",
+      "RESERVED": "ЗАБРОНИРОВАНО"
     }
   }
 }

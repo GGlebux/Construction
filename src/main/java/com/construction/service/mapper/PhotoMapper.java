@@ -17,6 +17,20 @@ public interface PhotoMapper extends EntityMapper<PhotoDTO, Photo> {
     @Mapping(target = "unit", source = "unit", qualifiedByName = "unitId")
     PhotoDTO toDto(Photo s);
 
+    @Override
+    @Mapping(target = "project.photos", ignore = true)
+    @Mapping(target = "project.units", ignore = true)
+    @Mapping(target = "unit.photos", ignore = true)
+    @Mapping(target = "unit.project", ignore = true)
+    Photo toEntity(PhotoDTO dto);
+
+    @Override
+    @Mapping(target = "project.photos", ignore = true)
+    @Mapping(target = "project.units", ignore = true)
+    @Mapping(target = "unit.photos", ignore = true)
+    @Mapping(target = "unit.project", ignore = true)
+    void partialUpdate(@MappingTarget Photo entity, PhotoDTO dto);
+
     @Named("buildingProjectId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")

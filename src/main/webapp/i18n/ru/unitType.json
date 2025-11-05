@@ -1,18 +1,18 @@
 {
   "strOyKakApp": {
     "UnitType": {
-      "null": "",
-      "STUDIO": "STUDIO",
-      "ONE_ROOM": "ONE_ROOM",
-      "TWO_ROOM": "TWO_ROOM",
-      "THREE_ROOM": "THREE_ROOM",
-      "FOUR_ROOM": "FOUR_ROOM",
-      "FIVE_ROOM": "FIVE_ROOM",
-      "HOUSE_XXS": "HOUSE_XXS",
-      "HOUSE_M": "HOUSE_M",
-      "HOUSE_L": "HOUSE_L",
-      "HOUSE_XL": "HOUSE_XL",
-      "VILLA": "VILLA"
+      "null": "НЕТ",
+      "STUDIO": "СТУДИЯ",
+      "ONE_ROOM": "ОДНО-КОМНАТНАЯ",
+      "TWO_ROOM": "ДВУХ-КОМНАТНАЯ",
+      "THREE_ROOM": "ТРЁХ-КОМНАТНАЯ",
+      "FOUR_ROOM": "ЧЕТЫРЕХ-КОМНАТНАЯ",
+      "FIVE_ROOM": "ПЯТИ-КОМНАТНАЯ",
+      "HOUSE_XXS": "ДОМ_XXS",
+      "HOUSE_M": "ДОМ_M",
+      "HOUSE_L": "ДОМ_L",
+      "HOUSE_XL": "ДОМ_XL",
+      "VILLA": "ВИЛЛА"
     }
   }
 }

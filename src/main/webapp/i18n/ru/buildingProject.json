@@ -2,28 +2,28 @@
   "strOyKakApp": {
     "buildingProject": {
       "home": {
-        "title": "Building Projects",
+        "title": "Строительный объект",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Building Project",
-        "createOrEditLabel": "Создать или отредактировать Building Project",
-        "notFound": "Building Projects не найдено"
+        "createLabel": "Создать новый Строительный объект",
+        "createOrEditLabel": "Создать или отредактировать Строительный объект",
+        "notFound": "Строительный объект не найдено"
       },
-      "created": "Новый Building Project создан с идентификатором {{ param }}",
-      "updated": "Building Project обновлен с идентификатором {{ param }}",
-      "deleted": "Building Project удален с идентификатором {{ param }}",
+      "created": "Новый Строительный объект создан с идентификатором {{ param }}",
+      "updated": "Строительный объект обновлен с идентификатором {{ param }}",
+      "deleted": "Строительный объект удален с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Building Project {{ id }}?"
+        "question": "Вы уверены что хотите удалить Строительный объект {{ id }}?"
       },
       "detail": {
-        "title": "Building Project"
+        "title": "Строительный объект"
       },
       "id": "ID",
-      "name": "Name",
-      "type": "Type",
-      "address": "Address",
-      "description": "Description",
-      "minPrice": "Min Price",
-      "completionDate": "Completion Date",
+      "name": "Имя",
+      "type": "Тип",
+      "address": "Адрес",
+      "description": "Описание",
+      "minPrice": "Мин. цена",
+      "completionDate": "Дата сдачи",
       "units": "Units",
       "photos": "Photos"
     }
