@@ -151,3 +151,11 @@ Desktop.ini
 ######################
 /coverage/
 /.nyc_output/
+
+.idea/
+node_modules/
+target/
+npmw
+npmw.cmd
+.devcontainer/
+
