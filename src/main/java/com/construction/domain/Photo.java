@@ -1,17 +1,17 @@
 package com.construction.domain;
 
-import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.SEQUENCE;
-import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import java.io.Serializable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Cache;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.SEQUENCE;
+import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
 /**
  * A Photo.
@@ -20,9 +20,12 @@ import org.hibernate.annotations.Cache;
 @Table(name = "photo")
 @Cache(usage = READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Photo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,10 +41,12 @@ public class Photo implements Serializable {
     private String url;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "project_id")
     @JsonIgnoreProperties(value = { "units", "photos" }, allowSetters = true)
     private BuildingProject project;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "unit_id")
     @JsonIgnoreProperties(value = { "photos", "bookings", "project" }, allowSetters = true)
     private Unit unit;
 }

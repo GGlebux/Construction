@@ -1,26 +1,25 @@
 package com.construction.domain;
 
-import static jakarta.persistence.EnumType.STRING;
-import static jakarta.persistence.FetchType.EAGER;
-import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.SEQUENCE;
-import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
-
 import com.construction.domain.enumeration.UnitStatus;
 import com.construction.domain.enumeration.UnitType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.Cache;
+
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.SEQUENCE;
+import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
 /**
  * A Unit.
@@ -29,10 +28,12 @@ import org.hibernate.annotations.Cache;
 @Table(name = "unit")
 @Cache(usage = READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Unit implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -74,8 +75,9 @@ public class Unit implements Serializable {
     @Column(name = "completion_date")
     private Instant completionDate;
 
-    @OneToMany(fetch = EAGER, mappedBy = "unit")
+    @OneToMany(fetch = LAZY, mappedBy = "unit")
     @Cache(usage = READ_WRITE)
+    @BatchSize(size = 20)
     @JsonIgnoreProperties(value = { "project", "unit" }, allowSetters = true)
     private Set<Photo> photos = new HashSet<>();
 

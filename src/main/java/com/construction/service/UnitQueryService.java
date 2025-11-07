@@ -1,12 +1,11 @@
 package com.construction.service;
 
-import static org.hibernate.Hibernate.initialize;
-
 import com.construction.domain.*;
 import com.construction.repository.UnitRepository;
 import com.construction.service.criteria.UnitCriteria;
 import com.construction.service.dto.UnitDTO;
 import com.construction.service.mapper.UnitMapper;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +13,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toMap;
+import static org.hibernate.Hibernate.initialize;
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 
 /**
  * Service for executing complex queries for {@link Unit} entities in the database.
@@ -33,9 +40,12 @@ public class UnitQueryService extends QueryService<Unit> {
 
     private final UnitMapper unitMapper;
 
-    public UnitQueryService(UnitRepository unitRepository, UnitMapper unitMapper) {
+    private final EntityManager em;
+
+    public UnitQueryService(UnitRepository unitRepository, UnitMapper unitMapper, EntityManager em) {
         this.unitRepository = unitRepository;
         this.unitMapper = unitMapper;
+        this.em = em;
     }
 
     /**
@@ -48,11 +58,30 @@ public class UnitQueryService extends QueryService<Unit> {
     public Page<UnitDTO> findByCriteria(UnitCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Unit> specification = createSpecification(criteria);
-        unitRepository.findAll().forEach(unit -> log.error("asdq size = {}", unit.getPhotos().size()));
-        Page<Unit> paged = unitRepository.findAll(specification, page);
-        paged.forEach(unit -> log.error("photos size = {}", unit.getPhotos().size()));
-        paged.forEach(unit -> initialize(unit.getPhotos()));
-        return paged.map(unitMapper::toDto);
+        Page<Unit> pagedIds = unitRepository.findAll(specification, page);
+
+        List<Unit> unitsWithPhotos = this.findWithPhotosByIdInFresh(
+            pagedIds.stream().map(Unit::getId).toList()
+        );
+
+        unitsWithPhotos.forEach(unit -> System.err.printf("Photos size {%s}\n",  unit.getPhotos().size()));
+
+        Map<Long, Unit> map = unitsWithPhotos.stream()
+            .collect(toMap(Unit::getId, u -> u));
+
+        Page<Unit> merged = pagedIds.map(u -> map.getOrDefault(u.getId(), u));
+
+        merged.forEach(unit -> System.err.printf("Photos size {%s}\n",  unit.getPhotos().size()));
+
+        merged.forEach(unit -> initialize(unit.getPhotos()));
+
+        return merged.map(unitMapper::toDto);
+    }
+
+    @Transactional(readOnly = true, propagation = REQUIRES_NEW)
+    public List<Unit> findWithPhotosByIdInFresh(List<Long> ids) {
+        em.clear(); // 💡 сбрасываем кэш первого уровня
+        return unitRepository.findWithPhotosByIdIn(ids);
     }
 
     /**

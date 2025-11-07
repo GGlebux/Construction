@@ -17,7 +17,7 @@ logging:
   level:
     ROOT: INFO
     tech.jhipster: INFO
-    org.hibernate.SQL: INFO
+    org.hibernate.SQL: DEBUG
     com.construction: INFO
 
 spring:
