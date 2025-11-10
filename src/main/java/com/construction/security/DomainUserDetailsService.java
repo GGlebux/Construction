@@ -1,7 +1,7 @@
 package com.construction.security;
 
-import com.construction.domain.Authority;
-import com.construction.domain.User;
+import com.construction.models.Authority;
+import com.construction.models.User;
 import com.construction.repository.UserRepository;
 import java.util.*;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;

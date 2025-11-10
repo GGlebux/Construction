@@ -1,13 +1,13 @@
 package com.construction.repository;
 
-import com.construction.domain.Unit;
+import com.construction.models.Unit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Spring Data JPA repository for the Unit entity.
@@ -15,6 +15,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface UnitRepository extends JpaRepository<Unit, Long>, JpaSpecificationExecutor<Unit> {
-    @Query("select distinct u from Unit u left join fetch u.photos where u.id in :ids")
-    List<Unit> findWithPhotosByIdIn(@Param("ids") List<Long> photoIds);
+
+    @Override
+    @EntityGraph(attributePaths = {"photos"})
+    Page<Unit> findAll(Specification<Unit> spec, Pageable pageable);
 }

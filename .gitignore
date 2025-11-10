@@ -8,6 +8,8 @@ npm-debug.log.*
 /.awcache/*
 /.cache-loader/*
 
+.env
+
 ######################
 # SASS
 ######################

@@ -47,19 +47,19 @@ public class CacheConfiguration {
         return cm -> {
             createCache(cm, com.construction.repository.UserRepository.USERS_BY_LOGIN_CACHE);
             createCache(cm, com.construction.repository.UserRepository.USERS_BY_EMAIL_CACHE);
-            createCache(cm, com.construction.domain.User.class.getName());
-            createCache(cm, com.construction.domain.Authority.class.getName());
-            createCache(cm, com.construction.domain.User.class.getName() + ".authorities");
-            createCache(cm, com.construction.domain.BuildingProject.class.getName());
-            createCache(cm, com.construction.domain.BuildingProject.class.getName() + ".units");
-            createCache(cm, com.construction.domain.BuildingProject.class.getName() + ".photos");
-            createCache(cm, com.construction.domain.Unit.class.getName());
-            createCache(cm, com.construction.domain.Unit.class.getName() + ".photos");
-            createCache(cm, com.construction.domain.Unit.class.getName() + ".bookings");
-            createCache(cm, com.construction.domain.Photo.class.getName());
-            createCache(cm, com.construction.domain.Client.class.getName());
-            createCache(cm, com.construction.domain.Client.class.getName() + ".bookings");
-            createCache(cm, com.construction.domain.Booking.class.getName());
+            createCache(cm, com.construction.models.User.class.getName());
+            createCache(cm, com.construction.models.Authority.class.getName());
+            createCache(cm, com.construction.models.User.class.getName() + ".authorities");
+            createCache(cm, com.construction.models.BuildingProject.class.getName());
+            createCache(cm, com.construction.models.BuildingProject.class.getName() + ".units");
+            createCache(cm, com.construction.models.BuildingProject.class.getName() + ".photos");
+            createCache(cm, com.construction.models.Unit.class.getName());
+            createCache(cm, com.construction.models.Unit.class.getName() + ".photos");
+            createCache(cm, com.construction.models.Unit.class.getName() + ".bookings");
+            createCache(cm, com.construction.models.Photo.class.getName());
+            createCache(cm, com.construction.models.Client.class.getName());
+            createCache(cm, com.construction.models.Client.class.getName() + ".bookings");
+            createCache(cm, com.construction.models.Booking.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,11 +1,12 @@
 package com.construction.service;
 
-import com.construction.domain.*;
+import com.construction.criteria.UnitCriteria;
+import com.construction.dto.BuildingProjectDTO;
+import com.construction.dto.FullUnitDTO;
+import com.construction.dto.UnitDTO;
+import com.construction.mapper.UnitMapper;
+import com.construction.models.*;
 import com.construction.repository.UnitRepository;
-import com.construction.service.criteria.UnitCriteria;
-import com.construction.service.dto.UnitDTO;
-import com.construction.service.mapper.UnitMapper;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,16 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
 
-import java.util.List;
-import java.util.Map;
-
-import static java.util.stream.Collectors.toMap;
-import static org.hibernate.Hibernate.initialize;
-import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Service for executing complex queries for {@link Unit} entities in the database.
@@ -40,12 +35,10 @@ public class UnitQueryService extends QueryService<Unit> {
 
     private final UnitMapper unitMapper;
 
-    private final EntityManager em;
 
-    public UnitQueryService(UnitRepository unitRepository, UnitMapper unitMapper, EntityManager em) {
+    public UnitQueryService(UnitRepository unitRepository, UnitMapper unitMapper) {
         this.unitRepository = unitRepository;
         this.unitMapper = unitMapper;
-        this.em = em;
     }
 
     /**
@@ -55,33 +48,10 @@ public class UnitQueryService extends QueryService<Unit> {
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
-    public Page<UnitDTO> findByCriteria(UnitCriteria criteria, Pageable page) {
+    public Page<FullUnitDTO> findByCriteria(UnitCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Unit> specification = createSpecification(criteria);
-        Page<Unit> pagedIds = unitRepository.findAll(specification, page);
-
-        List<Unit> unitsWithPhotos = this.findWithPhotosByIdInFresh(
-            pagedIds.stream().map(Unit::getId).toList()
-        );
-
-        unitsWithPhotos.forEach(unit -> System.err.printf("Photos size {%s}\n",  unit.getPhotos().size()));
-
-        Map<Long, Unit> map = unitsWithPhotos.stream()
-            .collect(toMap(Unit::getId, u -> u));
-
-        Page<Unit> merged = pagedIds.map(u -> map.getOrDefault(u.getId(), u));
-
-        merged.forEach(unit -> System.err.printf("Photos size {%s}\n",  unit.getPhotos().size()));
-
-        merged.forEach(unit -> initialize(unit.getPhotos()));
-
-        return merged.map(unitMapper::toDto);
-    }
-
-    @Transactional(readOnly = true, propagation = REQUIRES_NEW)
-    public List<Unit> findWithPhotosByIdInFresh(List<Long> ids) {
-        em.clear(); // 💡 сбрасываем кэш первого уровня
-        return unitRepository.findWithPhotosByIdIn(ids);
+        return unitRepository.findAll(specification, page).map(this::toDto);
     }
 
     /**
@@ -135,11 +105,11 @@ public class UnitQueryService extends QueryService<Unit> {
             if (criteria.getCompletionDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getCompletionDate(), Unit_.completionDate));
             }
-            if (criteria.getPhotosId() != null) {
-                specification = specification.and(
-                    buildSpecification(criteria.getPhotosId(), root -> root.join(Unit_.photos, JoinType.LEFT).get(Photo_.id))
-                );
-            }
+//            if (criteria.getPhotosId() != null) {
+//                specification = specification.and(
+//                    buildSpecification(criteria.getPhotosId(), root -> root.join(Unit_.photos, JoinType.LEFT).get(Photo_.id))
+//                );
+//            }
             if (criteria.getBookingsId() != null) {
                 specification = specification.and(
                     buildSpecification(criteria.getBookingsId(), root -> root.join(Unit_.bookings, JoinType.LEFT).get(Booking_.id))
@@ -152,5 +122,21 @@ public class UnitQueryService extends QueryService<Unit> {
             }
         }
         return specification;
+    }
+
+    private FullUnitDTO toDto(Unit e) {
+        return new FullUnitDTO(
+            e.getId(),
+            e.getLocation(),
+            e.getPrice(),
+            e.getDescription(),
+                e.getArea(),
+                e.getFloor(),
+                e.getType(),
+                e.getStatus(),
+                e.getCompletionDate(),
+                new BuildingProjectDTO(e.getProject().getId()),
+                e.getPhotos().stream().map(Photo::getUrl).collect(toSet())
+        );
     }
 }

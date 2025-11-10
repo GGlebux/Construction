@@ -1,6 +1,6 @@
 package com.construction.web.rest;
 
-import com.construction.domain.Authority;
+import com.construction.models.Authority;
 import com.construction.repository.AuthorityRepository;
 import com.construction.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.construction.domain.Authority}.
+ * REST controller for managing {@link com.construction.models.Authority}.
  */
 @RestController
 @RequestMapping("/api/authorities")

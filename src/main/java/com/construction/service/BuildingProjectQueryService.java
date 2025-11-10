@@ -1,15 +1,11 @@
 package com.construction.service;
 
-import static org.hibernate.Hibernate.initialize;
-
-import com.construction.domain.BuildingProject;
-import com.construction.domain.BuildingProject_;
-import com.construction.domain.Photo_;
-import com.construction.domain.Unit_;
+import com.construction.criteria.BuildingProjectCriteria;
+import com.construction.dto.BuildingProjectDTO;
+import com.construction.dto.FullProjectDTO;
+import com.construction.dto.UnitDTO;
+import com.construction.models.*;
 import com.construction.repository.BuildingProjectRepository;
-import com.construction.service.criteria.BuildingProjectCriteria;
-import com.construction.service.dto.BuildingProjectDTO;
-import com.construction.service.mapper.BuildingProjectMapper;
 import jakarta.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +15,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Service for executing complex queries for {@link BuildingProject} entities in the database.
@@ -32,13 +30,11 @@ public class BuildingProjectQueryService extends QueryService<BuildingProject> {
 
     private final Logger log = LoggerFactory.getLogger(BuildingProjectQueryService.class);
 
-    private final BuildingProjectRepository buildingProjectRepository;
+    private final BuildingProjectRepository repo;
 
-    private final BuildingProjectMapper buildingProjectMapper;
 
-    public BuildingProjectQueryService(BuildingProjectRepository buildingProjectRepository, BuildingProjectMapper buildingProjectMapper) {
-        this.buildingProjectRepository = buildingProjectRepository;
-        this.buildingProjectMapper = buildingProjectMapper;
+    public BuildingProjectQueryService(BuildingProjectRepository repo) {
+        this.repo = repo;
     }
 
     /**
@@ -48,15 +44,10 @@ public class BuildingProjectQueryService extends QueryService<BuildingProject> {
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
-    public Page<BuildingProjectDTO> findByCriteria(BuildingProjectCriteria criteria, Pageable page) {
+    public Page<FullProjectDTO> findBySpecification(BuildingProjectCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
-        final Specification<BuildingProject> specification = createSpecification(criteria);
-        Page<BuildingProject> paged = buildingProjectRepository.findAll(specification, page);
-        paged.forEach(project -> {
-            initialize(project.getUnits());
-            initialize(project.getPhotos());
-        });
-        return paged.map(buildingProjectMapper::toDto);
+        Page<BuildingProject> all = repo.findAll(createSpecification(criteria), page);
+        return all.map(this::toDto);
     }
 
     /**
@@ -65,17 +56,11 @@ public class BuildingProjectQueryService extends QueryService<BuildingProject> {
      * @return the number of matching entities.
      */
     @Transactional(readOnly = true)
-    public long countByCriteria(BuildingProjectCriteria criteria) {
+    public long countBySpecification(BuildingProjectCriteria criteria) {
         log.debug("count by criteria : {}", criteria);
-        final Specification<BuildingProject> specification = createSpecification(criteria);
-        return buildingProjectRepository.count(specification);
+        return repo.count(createSpecification(criteria));
     }
 
-    /**
-     * Function to convert {@link BuildingProjectCriteria} to a {@link Specification}
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @return the matching {@link Specification} of the entity.
-     */
     protected Specification<BuildingProject> createSpecification(BuildingProjectCriteria criteria) {
         Specification<BuildingProject> specification = Specification.where(null);
         if (criteria != null) {
@@ -106,15 +91,29 @@ public class BuildingProjectQueryService extends QueryService<BuildingProject> {
             }
             if (criteria.getUnitsId() != null) {
                 specification = specification.and(
-                    buildSpecification(criteria.getUnitsId(), root -> root.join(BuildingProject_.units, JoinType.LEFT).get(Unit_.id))
+                        buildSpecification(criteria.getUnitsId(), root -> root.join(BuildingProject_.units, JoinType.LEFT).get(Unit_.id))
                 );
             }
             if (criteria.getPhotosId() != null) {
                 specification = specification.and(
-                    buildSpecification(criteria.getPhotosId(), root -> root.join(BuildingProject_.photos, JoinType.LEFT).get(Photo_.id))
+                        buildSpecification(criteria.getPhotosId(), root -> root.join(BuildingProject_.photos, JoinType.LEFT).get(Photo_.id))
                 );
             }
         }
         return specification;
+    }
+
+    private FullProjectDTO toDto(BuildingProject e) {
+        return new FullProjectDTO(
+                e.getId(),
+                e.getName(),
+                e.getType(),
+                e.getAddress(),
+                e.getDescription(),
+                e.getMinPrice(),
+                e.getCompletionDate(),
+                e.getPhotos().stream().map(Photo::getUrl).collect(toSet()),
+                e.getUnits().stream().map(u -> new UnitDTO(u.getId())).collect(toSet())
+        );
     }
 }

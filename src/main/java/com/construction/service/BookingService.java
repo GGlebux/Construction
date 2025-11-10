@@ -1,17 +1,29 @@
 package com.construction.service;
 
-import com.construction.domain.Booking;
+import com.construction.dto.BookingDTO;
+import com.construction.dto.SimpleBookingDTO;
+import com.construction.mapper.BookingMapper;
+import com.construction.mapper.UnitMapper;
+import com.construction.models.Booking;
+import com.construction.models.Client;
+import com.construction.models.Unit;
 import com.construction.repository.BookingRepository;
-import com.construction.service.dto.BookingDTO;
-import com.construction.service.mapper.BookingMapper;
-import java.util.Optional;
+import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+import static com.construction.models.enumeration.UnitStatus.AVAILABLE;
+import static com.construction.models.enumeration.UnitStatus.RESERVED;
+
 /**
- * Service Implementation for managing {@link com.construction.domain.Booking}.
+ * Service Implementation for managing {@link com.construction.models.Booking}.
  */
 @Service
 @Transactional
@@ -23,9 +35,18 @@ public class BookingService {
 
     private final BookingMapper bookingMapper;
 
-    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper) {
+    private final ClientService clientService;
+    private final UnitService unitService;
+    private final UnitMapper unitMapper;
+    private final UserService userService;
+
+    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, ClientService clientService, UnitService unitService, UnitMapper unitMapper, UserService userService) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
+        this.clientService = clientService;
+        this.unitService = unitService;
+        this.unitMapper = unitMapper;
+        this.userService = userService;
     }
 
     /**
@@ -38,6 +59,39 @@ public class BookingService {
         log.debug("Request to save Booking : {}", bookingDTO);
         Booking booking = bookingMapper.toEntity(bookingDTO);
         booking = bookingRepository.save(booking);
+        return bookingMapper.toDto(booking);
+    }
+
+    public BookingDTO create(SimpleBookingDTO dto) throws BadRequestException {
+        log.debug("Request to create Booking : {}", dto);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+        Client client = clientService
+                .find(dto.getClientId())
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Client with id=%d not found!"
+                                .formatted(dto.getClientId())));
+
+        Unit unit = unitService
+                .find(dto.getUnitId())
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Unit with id=%d not found!"
+                                .formatted(dto.getUnitId())));
+
+        if (!unit.getStatus().equals(AVAILABLE)){
+            throw new BadRequestException("Unit is already reserved!");
+        }
+
+        unit.setStatus(RESERVED);
+        unitService.save(unitMapper.toDto(unit));
+
+        Booking booking = new Booking(
+                dto.getNote(),
+                client,
+                unit
+        );
+        bookingRepository.save(booking);
         return bookingMapper.toDto(booking);
     }
 

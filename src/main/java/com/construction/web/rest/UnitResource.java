@@ -1,36 +1,45 @@
 package com.construction.web.rest;
 
+import com.construction.criteria.UnitCriteria;
+import com.construction.dto.FullUnitDTO;
+import com.construction.dto.UnitDTO;
+import com.construction.models.Unit;
 import com.construction.repository.UnitRepository;
 import com.construction.service.UnitQueryService;
 import com.construction.service.UnitService;
-import com.construction.service.criteria.UnitCriteria;
-import com.construction.service.dto.UnitDTO;
 import com.construction.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import static java.util.Arrays.stream;
+import static org.springframework.data.jpa.domain.Specification.where;
+
 /**
- * REST controller for managing {@link com.construction.domain.Unit}.
+ * REST controller for managing {@link com.construction.models.Unit}.
  */
 @RestController
 @RequestMapping("/api/units")
+@PreAuthorize("hasRole('ADMIN')")
 public class UnitResource {
 
     private final Logger log = LoggerFactory.getLogger(UnitResource.class);
@@ -148,13 +157,13 @@ public class UnitResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of units in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<UnitDTO>> getAllUnits(
+    public ResponseEntity<List<FullUnitDTO>> getAllUnits(
         UnitCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get Units by criteria: {}", criteria);
 
-        Page<UnitDTO> page = unitQueryService.findByCriteria(criteria, pageable);
+        Page<FullUnitDTO> page = unitQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -197,5 +206,12 @@ public class UnitResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @SafeVarargs
+    private Specification<Unit> createSpec(Specification<Unit>... spec) {
+        return stream(spec)
+                .filter(Objects::nonNull)
+                .reduce(where(null), Specification::and);
     }
 }

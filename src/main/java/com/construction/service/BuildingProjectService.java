@@ -1,9 +1,9 @@
 package com.construction.service;
 
-import com.construction.domain.BuildingProject;
+import com.construction.models.BuildingProject;
 import com.construction.repository.BuildingProjectRepository;
-import com.construction.service.dto.BuildingProjectDTO;
-import com.construction.service.mapper.BuildingProjectMapper;
+import com.construction.dto.BuildingProjectDTO;
+import com.construction.mapper.BuildingProjectMapper;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.construction.domain.BuildingProject}.
+ * Service Implementation for managing {@link com.construction.models.BuildingProject}.
  */
 @Service
 @Transactional

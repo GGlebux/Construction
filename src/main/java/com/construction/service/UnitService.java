@@ -1,9 +1,9 @@
 package com.construction.service;
 
-import com.construction.domain.Unit;
+import com.construction.models.Unit;
 import com.construction.repository.UnitRepository;
-import com.construction.service.dto.UnitDTO;
-import com.construction.service.mapper.UnitMapper;
+import com.construction.dto.UnitDTO;
+import com.construction.mapper.UnitMapper;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.construction.domain.Unit}.
+ * Service Implementation for managing {@link com.construction.models.Unit}.
  */
 @Service
 @Transactional
@@ -84,6 +84,12 @@ public class UnitService {
     public Optional<UnitDTO> findOne(Long id) {
         log.debug("Request to get Unit : {}", id);
         return unitRepository.findById(id).map(unitMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Unit> find(Long id) {
+        log.debug("Request to get Unit : {}", id);
+        return unitRepository.findById(id);
     }
 
     /**

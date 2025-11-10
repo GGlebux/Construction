@@ -1,6 +1,6 @@
 package com.construction.repository;
 
-import com.construction.domain.User;
+import com.construction.models.User;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;

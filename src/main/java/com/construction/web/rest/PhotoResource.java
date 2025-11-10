@@ -2,7 +2,7 @@ package com.construction.web.rest;
 
 import com.construction.repository.PhotoRepository;
 import com.construction.service.PhotoService;
-import com.construction.service.dto.PhotoDTO;
+import com.construction.dto.PhotoDTO;
 import com.construction.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -15,15 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.construction.domain.Photo}.
+ * REST controller for managing {@link com.construction.models.Photo}.
  */
 @RestController
 @RequestMapping("/api/photos")
+@PreAuthorize("hasRole('ADMIN')")
 public class PhotoResource {
 
     private final Logger log = LoggerFactory.getLogger(PhotoResource.class);

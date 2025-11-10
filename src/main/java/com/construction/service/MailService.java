@@ -1,6 +1,6 @@
 package com.construction.service;
 
-import com.construction.domain.User;
+import com.construction.models.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;

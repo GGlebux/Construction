@@ -1,14 +1,13 @@
 package com.construction.service;
 
 import com.construction.config.Constants;
-import com.construction.domain.Authority;
-import com.construction.domain.User;
+import com.construction.models.Authority;
+import com.construction.models.User;
 import com.construction.repository.AuthorityRepository;
 import com.construction.repository.UserRepository;
-import com.construction.security.AuthoritiesConstants;
 import com.construction.security.SecurityUtils;
-import com.construction.service.dto.AdminUserDTO;
-import com.construction.service.dto.UserDTO;
+import com.construction.dto.AdminUserDTO;
+import com.construction.dto.UserDTO;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -23,6 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
+
+import static com.construction.security.AuthoritiesConstants.USER;
 
 /**
  * Service class for managing users.
@@ -40,17 +41,19 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+    private final ClientService clientService;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
-    ) {
+        CacheManager cacheManager,
+        ClientService clientService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.clientService = clientService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -62,6 +65,7 @@ public class UserService {
                 user.setActivated(true);
                 user.setActivationKey(null);
                 this.clearUserCaches(user);
+                clientService.createForUser(user);
                 log.debug("Activated user: {}", user);
                 return user;
             });
@@ -127,7 +131,7 @@ public class UserService {
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
-        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        authorityRepository.findById(USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         this.clearUserCaches(newUser);

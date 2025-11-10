@@ -1,11 +1,11 @@
 package com.construction.service;
 
-import com.construction.domain.*; // for static metamodels
-import com.construction.domain.Booking;
+import com.construction.models.*; // for static metamodels
+import com.construction.models.Booking;
 import com.construction.repository.BookingRepository;
-import com.construction.service.criteria.BookingCriteria;
-import com.construction.service.dto.BookingDTO;
-import com.construction.service.mapper.BookingMapper;
+import com.construction.criteria.BookingCriteria;
+import com.construction.dto.BookingDTO;
+import com.construction.mapper.BookingMapper;
 import jakarta.persistence.criteria.JoinType;
 import java.util.List;
 import org.slf4j.Logger;

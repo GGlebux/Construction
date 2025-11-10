@@ -1,12 +1,12 @@
 package com.construction.web.rest;
 
-import com.construction.domain.User;
+import com.construction.models.User;
 import com.construction.repository.UserRepository;
 import com.construction.security.SecurityUtils;
 import com.construction.service.MailService;
 import com.construction.service.UserService;
-import com.construction.service.dto.AdminUserDTO;
-import com.construction.service.dto.PasswordChangeDTO;
+import com.construction.dto.AdminUserDTO;
+import com.construction.dto.PasswordChangeDTO;
 import com.construction.web.rest.errors.*;
 import com.construction.web.rest.vm.KeyAndPasswordVM;
 import com.construction.web.rest.vm.ManagedUserVM;

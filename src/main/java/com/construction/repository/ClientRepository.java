@@ -1,6 +1,6 @@
 package com.construction.repository;
 
-import com.construction.domain.Client;
+import com.construction.models.Client;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

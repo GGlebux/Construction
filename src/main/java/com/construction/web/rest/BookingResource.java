@@ -1,11 +1,13 @@
 package com.construction.web.rest;
 
+import com.construction.dto.SimpleBookingDTO;
 import com.construction.repository.BookingRepository;
 import com.construction.service.BookingQueryService;
 import com.construction.service.BookingService;
-import com.construction.service.criteria.BookingCriteria;
-import com.construction.service.dto.BookingDTO;
+import com.construction.criteria.BookingCriteria;
+import com.construction.dto.BookingDTO;
 import com.construction.web.rest.errors.BadRequestAlertException;
+import io.undertow.util.BadRequestException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -17,15 +19,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.construction.domain.Booking}.
+ * REST controller for managing {@link com.construction.models.Booking}.
  */
 @RestController
 @RequestMapping("/api/bookings")
+@PreAuthorize("hasRole('ADMIN')")
 public class BookingResource {
 
     private final Logger log = LoggerFactory.getLogger(BookingResource.class);
@@ -64,6 +68,23 @@ public class BookingResource {
         return ResponseEntity.created(new URI("/api/bookings/" + bookingDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, bookingDTO.getId().toString()))
             .body(bookingDTO);
+    }
+
+    /**
+     * {@code POST  /bookings} : Create a new booking.
+     *
+     * @param dto the SimpleBookingDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bookingDTO, or with status {@code 400 (Bad Request)} if the booking has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/new")
+    public ResponseEntity<BookingDTO> create(@Valid @RequestBody SimpleBookingDTO dto) throws URISyntaxException, BadRequestException {
+        log.debug("REST request to create Booking : {}", dto);
+
+        BookingDTO res = bookingService.create(dto);
+        return ResponseEntity.created(new URI("/api/bookings/" + res.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, res.getId().toString()))
+            .body(res);
     }
 
     /**

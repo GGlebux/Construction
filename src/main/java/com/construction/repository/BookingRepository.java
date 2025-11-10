@@ -1,6 +1,6 @@
 package com.construction.repository;
 
-import com.construction.domain.Booking;
+import com.construction.models.Booking;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

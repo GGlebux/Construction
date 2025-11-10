@@ -1,6 +1,6 @@
 package com.construction.repository;
 
-import com.construction.domain.Authority;
+import com.construction.models.Authority;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

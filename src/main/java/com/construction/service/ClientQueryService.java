@@ -1,11 +1,11 @@
 package com.construction.service;
 
-import com.construction.domain.*; // for static metamodels
-import com.construction.domain.Client;
+import com.construction.models.*; // for static metamodels
+import com.construction.models.Client;
 import com.construction.repository.ClientRepository;
-import com.construction.service.criteria.ClientCriteria;
-import com.construction.service.dto.ClientDTO;
-import com.construction.service.mapper.ClientMapper;
+import com.construction.criteria.ClientCriteria;
+import com.construction.dto.ClientDTO;
+import com.construction.mapper.ClientMapper;
 import jakarta.persistence.criteria.JoinType;
 import java.util.List;
 import org.slf4j.Logger;
@@ -74,12 +74,6 @@ public class ClientQueryService extends QueryService<Client> {
             }
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Client_.id));
-            }
-            if (criteria.getFullName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getFullName(), Client_.fullName));
-            }
-            if (criteria.getEmail() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmail(), Client_.email));
             }
             if (criteria.getUserId() != null) {
                 specification = specification.and(

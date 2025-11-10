@@ -1,33 +1,37 @@
 package com.construction.web.rest;
 
+import com.construction.criteria.BuildingProjectCriteria;
+import com.construction.dto.BuildingProjectDTO;
+import com.construction.dto.FullProjectDTO;
 import com.construction.repository.BuildingProjectRepository;
 import com.construction.service.BuildingProjectQueryService;
 import com.construction.service.BuildingProjectService;
-import com.construction.service.criteria.BuildingProjectCriteria;
-import com.construction.service.dto.BuildingProjectDTO;
 import com.construction.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+import static tech.jhipster.web.util.PaginationUtil.generatePaginationHttpHeaders;
+
 /**
- * REST controller for managing {@link com.construction.domain.BuildingProject}.
+ * REST controller for managing {@link com.construction.models.BuildingProject}.
  */
 @RestController
 @RequestMapping("/api/building-projects")
@@ -147,33 +151,31 @@ public class BuildingProjectResource {
 
     /**
      * {@code GET  /building-projects} : get all the buildingProjects.
-     *
+     * @param criteria The object which holds all the filters, which the entities should match.
      * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of buildingProjects in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<BuildingProjectDTO>> getAllBuildingProjects(
+    public ResponseEntity<List<FullProjectDTO>> getAllBuildingProjects(
         BuildingProjectCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get BuildingProjects by criteria: {}", criteria);
-
-        Page<BuildingProjectDTO> page = buildingProjectQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        Page<FullProjectDTO> page = buildingProjectQueryService.findBySpecification(criteria, pageable);
+        HttpHeaders headers = generatePaginationHttpHeaders(fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
      * {@code GET  /building-projects/count} : count all the buildingProjects.
-     *
-     * @param criteria the criteria which the requested entities should match.
+     * @param criteria The object which holds all the filters, which the entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
     @GetMapping("/count")
-    public ResponseEntity<Long> countBuildingProjects(BuildingProjectCriteria criteria) {
+    public ResponseEntity<Long> countBuildingProjects(
+            BuildingProjectCriteria criteria) {
         log.debug("REST request to count BuildingProjects by criteria: {}", criteria);
-        return ResponseEntity.ok().body(buildingProjectQueryService.countByCriteria(criteria));
+        return ResponseEntity.ok().body(buildingProjectQueryService.countBySpecification(criteria));
     }
 
     /**

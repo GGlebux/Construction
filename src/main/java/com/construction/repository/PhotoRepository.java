@@ -1,6 +1,6 @@
 package com.construction.repository;
 
-import com.construction.domain.Photo;
+import com.construction.models.Photo;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

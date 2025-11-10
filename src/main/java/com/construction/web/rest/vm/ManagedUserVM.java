@@ -1,6 +1,6 @@
 package com.construction.web.rest.vm;
 
-import com.construction.service.dto.AdminUserDTO;
+import com.construction.dto.AdminUserDTO;
 import jakarta.validation.constraints.Size;
 
 /**

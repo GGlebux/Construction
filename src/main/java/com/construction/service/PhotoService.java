@@ -1,9 +1,9 @@
 package com.construction.service;
 
-import com.construction.domain.Photo;
+import com.construction.models.Photo;
 import com.construction.repository.PhotoRepository;
-import com.construction.service.dto.PhotoDTO;
-import com.construction.service.mapper.PhotoMapper;
+import com.construction.dto.PhotoDTO;
+import com.construction.mapper.PhotoMapper;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.construction.domain.Photo}.
+ * Service Implementation for managing {@link com.construction.models.Photo}.
  */
 @Service
 @Transactional

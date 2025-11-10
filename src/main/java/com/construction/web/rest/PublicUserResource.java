@@ -1,7 +1,7 @@
 package com.construction.web.rest;
 
 import com.construction.service.UserService;
-import com.construction.service.dto.UserDTO;
+import com.construction.dto.UserDTO;
 import java.util.*;
 import java.util.Collections;
 import org.slf4j.Logger;

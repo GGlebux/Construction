@@ -1,9 +1,10 @@
 package com.construction.service;
 
-import com.construction.domain.Client;
+import com.construction.models.Client;
+import com.construction.models.User;
 import com.construction.repository.ClientRepository;
-import com.construction.service.dto.ClientDTO;
-import com.construction.service.mapper.ClientMapper;
+import com.construction.dto.ClientDTO;
+import com.construction.mapper.ClientMapper;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.construction.domain.Client}.
+ * Service Implementation for managing {@link com.construction.models.Client}.
  */
 @Service
 @Transactional
@@ -41,6 +42,10 @@ public class ClientService {
         Client client = clientMapper.toEntity(clientDTO);
         client = clientRepository.save(client);
         return clientMapper.toDto(client);
+    }
+
+    public void createForUser(User user){
+        clientRepository.save(new Client(user));
     }
 
     /**
@@ -96,6 +101,13 @@ public class ClientService {
         log.debug("Request to get Client : {}", id);
         return clientRepository.findOneWithEagerRelationships(id).map(clientMapper::toDto);
     }
+
+    @Transactional(readOnly = true)
+    public Optional<Client> find(Long id) {
+        log.debug("Request to get Client : {}", id);
+        return clientRepository.findOneWithEagerRelationships(id);
+    }
+
 
     /**
      * Delete the client by id.
