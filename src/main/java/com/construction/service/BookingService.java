@@ -8,6 +8,7 @@ import com.construction.models.Booking;
 import com.construction.models.Client;
 import com.construction.models.Unit;
 import com.construction.repository.BookingRepository;
+import com.construction.security.SecurityUtils;
 import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 import static com.construction.models.enumeration.UnitStatus.AVAILABLE;
 import static com.construction.models.enumeration.UnitStatus.RESERVED;
+import static com.construction.security.SecurityUtils.getCurrentUserLogin;
 
 /**
  * Service Implementation for managing {@link com.construction.models.Booking}.
@@ -64,7 +66,8 @@ public class BookingService {
 
     public BookingDTO create(SimpleBookingDTO dto) throws BadRequestException {
         log.debug("Request to create Booking : {}", dto);
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String currentLogin = getCurrentUserLogin()
+                .orElseThrow(() -> new UsernameNotFoundException("Current user not found"));
 
 
         Client client = clientService
@@ -72,6 +75,10 @@ public class BookingService {
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Client with id=%d not found!"
                                 .formatted(dto.getClientId())));
+
+        if (client.getUser() == null || !client.getUser().getLogin().equals(currentLogin)) {
+            throw new BadRequestException("You are not allowed to create bookings for another client!");
+        }
 
         Unit unit = unitService
                 .find(dto.getUnitId())

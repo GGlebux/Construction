@@ -44,6 +44,8 @@ public class ClientService {
         return clientMapper.toDto(client);
     }
 
+    public ClientDTO
+
     public void createForUser(User user){
         clientRepository.save(new Client(user));
     }

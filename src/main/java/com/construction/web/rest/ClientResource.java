@@ -177,6 +177,19 @@ public class ClientResource {
     }
 
     /**
+     * {@code GET  /clients/} : get the "id" client.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the clientDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/current")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<ClientDTO> getClient() {
+        log.debug("REST request to get current Client");
+        Optional<ClientDTO> clientDTO = clientService.;
+        return ResponseUtil.wrapOrNotFound(clientDTO);
+    }
+
+    /**
      * {@code DELETE  /clients/:id} : delete the "id" client.
      *
      * @param id the id of the clientDTO to delete.
