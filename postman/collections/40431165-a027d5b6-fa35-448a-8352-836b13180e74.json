@@ -1,0 +1,325 @@
+{
+	"info": {
+		"_postman_id": "40431165-a027d5b6-fa35-448a-8352-836b13180e74",
+		"name": "Курва",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All BuildingProjects",
+			"id": "40431165-eff09015-dcdc-4c28-a87c-6627a19bb920",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/building-projects",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"building-projects"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "size",
+							"value": "20",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "price,asc",
+							"disabled": true
+						},
+						{
+							"key": "price.greaterThanOrEqual",
+							"value": "50000",
+							"disabled": true
+						},
+						{
+							"key": "price.lessThanOrEqual",
+							"value": "150000",
+							"disabled": true
+						},
+						{
+							"key": "area.greaterThanOrEqual",
+							"value": "50",
+							"disabled": true
+						},
+						{
+							"key": "area.lessThanOrEqual",
+							"value": "120",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "MULTI_APARTMENT",
+							"disabled": true
+						},
+						{
+							"key": "completionDate.lessThan",
+							"value": "2026-01-01T00:00:00Z",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Units",
+			"id": "40431165-cf510603-5d25-4984-a944-1d3c2a8992af",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc2NDk0MzEzNiwiYXV0aCI6IlJPTEVfQURNSU4gUk9MRV9VU0VSIiwiaWF0IjoxNzYyMzUxMTM2fQ.2hbipFWC6EADvnpOOAKIZWFm4ySZLI9b0cIvgWRwTWPE-9D4Y_TOosCI7BNNR-X32ZjgYWPwN9p4pduamIQfoQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/units?completionDate.lessThan=2026-01-01T00:00:00Z",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"units"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "size",
+							"value": "20",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "price,asc",
+							"disabled": true
+						},
+						{
+							"key": "price.greaterThanOrEqual",
+							"value": "50000",
+							"disabled": true
+						},
+						{
+							"key": "price.lessThanOrEqual",
+							"value": "150000",
+							"disabled": true
+						},
+						{
+							"key": "area.greaterThanOrEqual",
+							"value": "50",
+							"disabled": true
+						},
+						{
+							"key": "area.lessThanOrEqual",
+							"value": "120",
+							"disabled": true
+						},
+						{
+							"key": "type.in",
+							"value": "TWO_ROOM, FIVE_ROOM",
+							"disabled": true
+						},
+						{
+							"key": "completionDate.lessThan",
+							"value": "2026-01-01T00:00:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"id": "40431165-68c0adfc-76e1-460d-a2f8-cd0b7fcef920",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"login\": \"gglebux\",\n  \"firstName\": \"Gleb\",\n  \"lastName\": \"Rain\",\n  \"imageUrl\": \"https://i.pinimg.com/736x/f3/72/c1/f372c1a7ed0dcee072e0e8362bdac439.jpg\",\n  \"email\": \"rejngleb@gmail.com\",\n  \"password\": \"hubabuba228\",\n  \"langKey\": \"ru\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/register",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"id": "40431165-d46dd4fd-37f0-4a3e-bdd9-6b685b2bd8ea",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"gglebux\",\n  \"password\": \"hubabuba228\",\n  \"rememberMe\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/authenticate",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Personal Profile",
+			"id": "40431165-1e5a7b60-ae40-4797-8dac-2bac2dc4ef13",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{vault:kurva_jwt}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/clients/current",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"clients",
+						"current"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Booking",
+			"id": "40431165-fde6bf90-fdca-4e07-8789-2f056a6d2602",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{vault:kurva_jwt}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"unitId\": 1,\n    \"note\": \"Просто пометка, ничего более, например: важно продлить бронь!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/bookings/new",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"bookings",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Booking",
+			"id": "40431165-3ff16123-801c-45ea-a5ab-d7f37228f8be",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{vault:kurva_jwt}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/bookings/1",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"bookings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
