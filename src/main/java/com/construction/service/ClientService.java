@@ -1,17 +1,27 @@
 package com.construction.service;
 
+import com.construction.dto.AdminUserDTO;
+import com.construction.dto.ClientDTO;
+import com.construction.dto.FullClientDTO;
+import com.construction.mapper.BookingMapper;
+import com.construction.mapper.ClientMapper;
 import com.construction.models.Client;
 import com.construction.models.User;
 import com.construction.repository.ClientRepository;
-import com.construction.dto.ClientDTO;
-import com.construction.mapper.ClientMapper;
-import java.util.Optional;
+import com.construction.repository.UserRepository;
+import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+import static com.construction.security.SecurityUtils.getCurrentUserLogin;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Service Implementation for managing {@link com.construction.models.Client}.
@@ -21,14 +31,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientService {
 
     private final Logger log = LoggerFactory.getLogger(ClientService.class);
-
     private final ClientRepository clientRepository;
-
     private final ClientMapper clientMapper;
+    private final BookingMapper bookingMapper;
 
-    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper) {
+
+    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, BookingMapper bookingMapper) {
         this.clientRepository = clientRepository;
         this.clientMapper = clientMapper;
+        this.bookingMapper = bookingMapper;
     }
 
     /**
@@ -44,7 +55,25 @@ public class ClientService {
         return clientMapper.toDto(client);
     }
 
-    public ClientDTO
+    // ToDo: возращать корректные данные по авторизации (убрать параметр id)
+    public Optional<FullClientDTO> get(Long id) throws BadRequestException {
+        log.debug("Request to get Client with all Bookings");
+        String currentLogin = getCurrentUserLogin()
+                .orElseThrow(() -> new UsernameNotFoundException("Current user by login not found"));
+
+
+        Client client = this
+                .find(id)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Client with id=%d not found!"
+                                .formatted(id)));
+
+        if (client.getUser() == null || !client.getUser().getLogin().equals(currentLogin)) {
+            throw new BadRequestException("You are not allowed to get bookings for another client!");
+        }
+
+        return Optional.of(this.toDto(client));
+    }
 
     public void createForUser(User user){
         clientRepository.save(new Client(user));
@@ -119,5 +148,13 @@ public class ClientService {
     public void delete(Long id) {
         log.debug("Request to delete Client : {}", id);
         clientRepository.deleteById(id);
+    }
+
+    private FullClientDTO toDto(Client c) {
+        return new FullClientDTO(
+                c.getId(),
+                new AdminUserDTO(c.getUser()),
+                c.getBookings().stream().map(bookingMapper::toDto).collect(toSet())
+        );
     }
 }

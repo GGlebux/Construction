@@ -8,12 +8,9 @@ import com.construction.models.Booking;
 import com.construction.models.Client;
 import com.construction.models.Unit;
 import com.construction.repository.BookingRepository;
-import com.construction.security.SecurityUtils;
 import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,15 +37,14 @@ public class BookingService {
     private final ClientService clientService;
     private final UnitService unitService;
     private final UnitMapper unitMapper;
-    private final UserService userService;
 
-    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, ClientService clientService, UnitService unitService, UnitMapper unitMapper, UserService userService) {
+
+    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, ClientService clientService, UnitService unitService, UnitMapper unitMapper) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
         this.clientService = clientService;
         this.unitService = unitService;
         this.unitMapper = unitMapper;
-        this.userService = userService;
     }
 
     /**
@@ -67,7 +63,7 @@ public class BookingService {
     public BookingDTO create(SimpleBookingDTO dto) throws BadRequestException {
         log.debug("Request to create Booking : {}", dto);
         String currentLogin = getCurrentUserLogin()
-                .orElseThrow(() -> new UsernameNotFoundException("Current user not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Current user by login not found"));
 
 
         Client client = clientService

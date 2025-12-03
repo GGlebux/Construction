@@ -11,7 +11,7 @@
     -->
     <changeSet id="20251105135803-1" author="jhipster">
         <createTable tableName="unit">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="location" type="varchar(255)">

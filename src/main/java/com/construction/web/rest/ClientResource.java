@@ -1,11 +1,13 @@
 package com.construction.web.rest;
 
+import com.construction.dto.FullClientDTO;
 import com.construction.repository.ClientRepository;
 import com.construction.service.ClientQueryService;
 import com.construction.service.ClientService;
 import com.construction.criteria.ClientCriteria;
 import com.construction.dto.ClientDTO;
 import com.construction.web.rest.errors.BadRequestAlertException;
+import io.undertow.util.BadRequestException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -183,9 +185,9 @@ public class ClientResource {
      */
     @GetMapping("/current")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ClientDTO> getClient() {
+    public ResponseEntity<FullClientDTO> getFullClient(@PathVariable("id") Long id) throws BadRequestException {
         log.debug("REST request to get current Client");
-        Optional<ClientDTO> clientDTO = clientService.;
+        Optional<FullClientDTO> clientDTO = clientService.get(id);
         return ResponseUtil.wrapOrNotFound(clientDTO);
     }
 

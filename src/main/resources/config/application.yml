@@ -102,7 +102,7 @@ spring:
     show-sql: true
     open-in-view: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   messages:
     basename: i18n/messages
   main:
