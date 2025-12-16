@@ -3,7 +3,6 @@ package com.construction.web.rest;
 import com.construction.criteria.UnitCriteria;
 import com.construction.dto.FullUnitDTO;
 import com.construction.dto.UnitDTO;
-import com.construction.models.Unit;
 import com.construction.repository.UnitRepository;
 import com.construction.service.UnitQueryService;
 import com.construction.service.UnitService;
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,15 +29,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static java.util.Arrays.stream;
-import static org.springframework.data.jpa.domain.Specification.where;
-
 /**
  * REST controller for managing {@link com.construction.models.Unit}.
  */
 @RestController
 @RequestMapping("/api/units")
-@PreAuthorize("hasRole('ADMIN')")
 public class UnitResource {
 
     private final Logger log = LoggerFactory.getLogger(UnitResource.class);
@@ -68,7 +62,8 @@ public class UnitResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new unitDTO, or with status {@code 400 (Bad Request)} if the unit has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UnitDTO> createUnit(@Valid @RequestBody UnitDTO unitDTO) throws URISyntaxException {
         log.debug("REST request to save Unit : {}", unitDTO);
         if (unitDTO.getId() != null) {
@@ -91,6 +86,7 @@ public class UnitResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UnitDTO> updateUnit(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody UnitDTO unitDTO
@@ -125,6 +121,7 @@ public class UnitResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UnitDTO> partialUpdateUnit(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody UnitDTO unitDTO
@@ -156,7 +153,7 @@ public class UnitResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of units in body.
      */
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<FullUnitDTO>> getAllUnits(
         UnitCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
@@ -187,6 +184,7 @@ public class UnitResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the unitDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UnitDTO> getUnit(@PathVariable("id") Long id) {
         log.debug("REST request to get Unit : {}", id);
         Optional<UnitDTO> unitDTO = unitService.findOne(id);
@@ -200,18 +198,12 @@ public class UnitResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUnit(@PathVariable("id") Long id) {
         log.debug("REST request to delete Unit : {}", id);
         unitService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
-    }
-
-    @SafeVarargs
-    private Specification<Unit> createSpec(Specification<Unit>... spec) {
-        return stream(spec)
-                .filter(Objects::nonNull)
-                .reduce(where(null), Specification::and);
     }
 }

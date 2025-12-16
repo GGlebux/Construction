@@ -5,19 +5,23 @@
    git clone https://github.com/GGlebux/Construction.git
    ```
 
-2. Скачиваешь .jar файл отсюда
-   https://github.com/GGlebux/Construction/releases
-   и закидываешь в корень проекта
-
-3. Собираешь образ приложения (бэк + фронт) -  запускать в корне!
+2. Заходишь в папку docker
    ```bash
-   docker build -t str_oy_kak .
+   cd docker/
    ```
+
+3. Копируешь/создаешь файл .env и заполняешь. Пример example.env:
+   ```env
+   MAIL_USERNAME=some-mail@gmail.com
+   MAIL_PASSWORD=csrtffsxcbtfgeqpdc
+   JWT_SECRET=YjUyYmRkMmFkOTRhOWM0YzczNDk2NjNTYwODljODY5ZWRhNDRWNjMDU2YWUzNTkzMjExZTMzMmFiNDhiYmU=
+   ```
+
 
 4. Запускаешь приложение и дополнительные сервисы через docker compose
    ```bash
-   docker compose -f ./src/main/docker/full.yml up
+   docker compose  up
    ```
 
-Админка откроется на http://localhost:8080/
-Графана откроектся на http://localhost:3000/
+- API доступен по адресу http://localhost:8080/api/
+- Grafana доступна по адресу на http://localhost:3000/
