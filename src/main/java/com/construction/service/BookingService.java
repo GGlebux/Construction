@@ -7,10 +7,14 @@ import com.construction.mapper.UnitMapper;
 import com.construction.models.Booking;
 import com.construction.models.Client;
 import com.construction.models.Unit;
+import com.construction.models.User;
 import com.construction.repository.BookingRepository;
+import com.construction.repository.ClientRepository;
+import com.construction.repository.UserRepository;
 import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,22 +33,22 @@ import static com.construction.security.SecurityUtils.getCurrentUserLogin;
 public class BookingService {
 
     private final Logger log = LoggerFactory.getLogger(BookingService.class);
-
     private final BookingRepository bookingRepository;
-
     private final BookingMapper bookingMapper;
-
-    private final ClientService clientService;
     private final UnitService unitService;
     private final UnitMapper unitMapper;
+    private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
 
 
-    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, ClientService clientService, UnitService unitService, UnitMapper unitMapper) {
+    @Autowired
+    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, UnitService unitService, UnitMapper unitMapper, UserRepository userRepository, ClientRepository clientRepository) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
-        this.clientService = clientService;
         this.unitService = unitService;
         this.unitMapper = unitMapper;
+        this.userRepository = userRepository;
+        this.clientRepository = clientRepository;
     }
 
     /**
@@ -65,16 +69,12 @@ public class BookingService {
         String currentLogin = getCurrentUserLogin()
                 .orElseThrow(() -> new UsernameNotFoundException("Current user by login not found"));
 
+        User user = userRepository.findOneByLogin(currentLogin)
+                .orElseThrow(() -> new UsernameNotFoundException("Current user by login not found!"));
 
-        Client client = clientService
-                .find(dto.getClientId())
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Client with id=%d not found!"
-                                .formatted(dto.getClientId())));
-
-        if (client.getUser() == null || !client.getUser().getLogin().equals(currentLogin)) {
-            throw new BadRequestException("You are not allowed to create bookings for another client!");
-        }
+        Client client = clientRepository
+                .findByUser(user)
+                .orElseThrow(() -> new UsernameNotFoundException("Current client not found by username!"));
 
         Unit unit = unitService
                 .find(dto.getUnitId())
@@ -89,11 +89,13 @@ public class BookingService {
         unit.setStatus(RESERVED);
         unitService.save(unitMapper.toDto(unit));
 
+
         Booking booking = new Booking(
                 dto.getNote(),
                 client,
                 unit
         );
+
         bookingRepository.save(booking);
         return bookingMapper.toDto(booking);
     }

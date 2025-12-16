@@ -8,7 +8,7 @@ npm-debug.log.*
 /.awcache/*
 /.cache-loader/*
 
-.env
+src/main/docker/.env
 
 ######################
 # SASS

@@ -78,6 +78,7 @@ public class BookingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/new")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BookingDTO> create(@Valid @RequestBody SimpleBookingDTO dto) throws URISyntaxException, BadRequestException {
         log.debug("REST request to create Booking : {}", dto);
 
@@ -202,6 +203,7 @@ public class BookingResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Void> deleteBooking(@PathVariable("id") Long id) {
         log.debug("REST request to delete Booking : {}", id);
         bookingService.delete(id);

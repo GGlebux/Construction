@@ -1,0 +1,73 @@
+name: str_oy_kak
+
+services:
+  postgresql:
+    image: postgres:16
+    container_name: postgresql
+    environment:
+      POSTGRES_USER: str_OY_kak
+      POSTGRES_PASSWORD: ''
+      POSTGRES_DB: str_OY_kak
+      POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: app
+    env_file:
+      - .env
+    environment:
+      _JAVA_OPTIONS: "-Xmx512m -Xms256m"
+      SPRING_PROFILES_ACTIVE: "prod,api-docs"
+      MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED: "true"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgresql:5432/str_OY_kak"
+      SPRING_LIQUIBASE_URL: "jdbc:postgresql://postgresql:5432/str_OY_kak"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/management/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+
+  prometheus:
+    image: prom/prometheus:v2.51.2
+    container_name: prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: grafana
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+volumes:
+  pgdata:

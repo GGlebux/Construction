@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SimpleBookingDTO {
     @NotNull
-    private Long clientId;
-
-    @NotNull
     private Long unitId;
 
     private String note;

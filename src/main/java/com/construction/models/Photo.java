@@ -1,23 +1,21 @@
 package com.construction.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import org.hibernate.annotations.Cache;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
-import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
 /**
  * A Photo.
  */
 @Entity
 @Table(name = "photo")
-@Cache(usage = READ_WRITE)
 @Getter
 @Setter
 @NoArgsConstructor

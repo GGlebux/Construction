@@ -1,9 +1,0 @@
-{
-  "strOyKakApp": {
-    "BuildingType": {
-      "null": "",
-      "MULTI_APARTMENT": "МНОГОКВАРТИНЫЙ ДОМ",
-      "PRIVATE_HOUSE_GROUP": "ЧАСТНЫЙ СЕКТОР"
-    }
-  }
-}

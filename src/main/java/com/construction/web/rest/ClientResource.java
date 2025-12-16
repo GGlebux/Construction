@@ -1,20 +1,14 @@
 package com.construction.web.rest;
 
+import com.construction.criteria.ClientCriteria;
+import com.construction.dto.ClientDTO;
 import com.construction.dto.FullClientDTO;
 import com.construction.repository.ClientRepository;
 import com.construction.service.ClientQueryService;
 import com.construction.service.ClientService;
-import com.construction.criteria.ClientCriteria;
-import com.construction.dto.ClientDTO;
 import com.construction.web.rest.errors.BadRequestAlertException;
-import io.undertow.util.BadRequestException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +17,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.construction.models.Client}.
@@ -185,9 +185,9 @@ public class ClientResource {
      */
     @GetMapping("/current")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<FullClientDTO> getFullClient(@PathVariable("id") Long id) throws BadRequestException {
+    public ResponseEntity<FullClientDTO> getFullClient() {
         log.debug("REST request to get current Client");
-        Optional<FullClientDTO> clientDTO = clientService.get(id);
+        Optional<FullClientDTO> clientDTO = clientService.get();
         return ResponseUtil.wrapOrNotFound(clientDTO);
     }
 

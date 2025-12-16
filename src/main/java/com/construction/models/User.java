@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Cache;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -21,14 +20,12 @@ import java.util.Set;
 import static com.construction.config.Constants.LOGIN_REGEX;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.util.Locale.ENGLISH;
-import static org.hibernate.annotations.CacheConcurrencyStrategy.NONSTRICT_READ_WRITE;
 
 /**
  * A user.
  */
 @Entity
 @Table(name = "jhi_user")
-@Cache(usage = NONSTRICT_READ_WRITE)
 @Setter
 @Getter
 @AllArgsConstructor
@@ -97,7 +94,6 @@ public class User extends AbstractAuditingEntity<Long> {
         joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
         inverseJoinColumns = { @JoinColumn(name = "authority_name", referencedColumnName = "name") }
     )
-    @Cache(usage = NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 

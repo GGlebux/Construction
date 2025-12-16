@@ -9,7 +9,6 @@ import com.construction.models.Client;
 import com.construction.models.User;
 import com.construction.repository.ClientRepository;
 import com.construction.repository.UserRepository;
-import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -34,12 +33,14 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
     private final BookingMapper bookingMapper;
+    private final UserRepository userRepository;
 
 
-    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, BookingMapper bookingMapper) {
+    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, BookingMapper bookingMapper, UserRepository userRepository) {
         this.clientRepository = clientRepository;
         this.clientMapper = clientMapper;
         this.bookingMapper = bookingMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -55,22 +56,17 @@ public class ClientService {
         return clientMapper.toDto(client);
     }
 
-    // ToDo: возращать корректные данные по авторизации (убрать параметр id)
-    public Optional<FullClientDTO> get(Long id) throws BadRequestException {
+    public Optional<FullClientDTO> get() {
         log.debug("Request to get Client with all Bookings");
         String currentLogin = getCurrentUserLogin()
-                .orElseThrow(() -> new UsernameNotFoundException("Current user by login not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Current login not found!"));
 
+        User user = userRepository.findOneByLogin(currentLogin)
+                .orElseThrow(() -> new UsernameNotFoundException("Current user by login not found!"));
 
-        Client client = this
-                .find(id)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Client with id=%d not found!"
-                                .formatted(id)));
-
-        if (client.getUser() == null || !client.getUser().getLogin().equals(currentLogin)) {
-            throw new BadRequestException("You are not allowed to get bookings for another client!");
-        }
+        Client client = clientRepository
+                .findByUser(user)
+                .orElseThrow(() -> new UsernameNotFoundException("Current client not found by username!"));
 
         return Optional.of(this.toDto(client));
     }

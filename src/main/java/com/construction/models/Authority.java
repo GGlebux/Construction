@@ -2,19 +2,18 @@ package com.construction.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.data.domain.Persistable;
+
 import java.io.Serializable;
 import java.util.Objects;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.domain.Persistable;
 
 /**
  * A Authority.
  */
 @Entity
 @Table(name = "jhi_authority")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @JsonIgnoreProperties(value = { "new", "id" })
 public class Authority implements Serializable, Persistable<String> {
 

@@ -4,32 +4,27 @@ import com.construction.models.enumeration.BookingStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Cache;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
 import static com.construction.models.enumeration.BookingStatus.ACTIVE;
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static java.math.BigDecimal.ROUND_HALF_UP;
 import static java.time.Duration.ofDays;
 import static java.time.Instant.now;
-import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
 /**
  * A Booking.
  */
 @Entity
 @Table(name = "booking")
-@Cache(usage = READ_WRITE)
-@SuppressWarnings("common-java:DuplicatedBlocks")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Booking {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -67,9 +62,14 @@ public class Booking {
     @JsonIgnoreProperties(value = { "photos", "bookings", "project" }, allowSetters = true)
     private Unit unit;
 
+    private static final BigDecimal bookingPercentage = new BigDecimal("0.05");
+
     public Booking(String note, Client client, Unit unit) {
         this.note = note;
         this.client = client;
         this.unit = unit;
+        this.price = unit.getPrice()
+                .multiply(bookingPercentage)
+                .setScale(0, ROUND_HALF_UP);
     }
 }

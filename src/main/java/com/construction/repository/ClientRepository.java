@@ -3,6 +3,8 @@ package com.construction.repository;
 import com.construction.models.Client;
 import java.util.List;
 import java.util.Optional;
+
+import com.construction.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -34,4 +36,6 @@ public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecif
 
     @Query("select client from Client client left join fetch client.user where client.id =:id")
     Optional<Client> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Optional<Client> findByUser(User user);
 }

@@ -20,6 +20,7 @@ public class BookingDTO implements Serializable {
 
     private Long id;
 
+
     @NotNull
     private Instant bookingDate;
 

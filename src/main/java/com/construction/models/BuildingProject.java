@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -18,7 +17,6 @@ import java.util.Set;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
-import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
 
 
 /**
@@ -26,7 +24,6 @@ import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
  */
 @Entity
 @Table(name = "building_project")
-@Cache(usage = READ_WRITE)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -60,12 +57,10 @@ public class BuildingProject {
     private Instant completionDate;
 
     @OneToMany(fetch = LAZY, mappedBy = "project")
-    @Cache(usage = READ_WRITE)
     @JsonIgnoreProperties(value = { "photos", "bookings", "project" }, allowSetters = true)
     private Set<Unit> units = new HashSet<>();
 
     @OneToMany(fetch = LAZY, mappedBy = "project")
-    @Cache(usage = READ_WRITE)
     @JsonIgnoreProperties(value = { "project", "unit" }, allowSetters = true)
     private Set<Photo> photos = new HashSet<>();
 }
