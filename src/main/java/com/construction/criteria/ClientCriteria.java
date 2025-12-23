@@ -3,13 +3,15 @@ package com.construction.criteria;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
+
+import com.construction.rest.ClientResource;
 import org.springdoc.core.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.*;
 
 /**
  * Criteria class for the {@link com.construction.models.Client} entity. This class is used
- * in {@link com.construction.web.rest.ClientResource} to receive all the possible filtering options from
+ * in {@link ClientResource} to receive all the possible filtering options from
  * the Http GET request parameters.
  * For example the following could be a valid request:
  * {@code /clients?id.greaterThan=5&attr1.contains=something&attr2.specified=false}

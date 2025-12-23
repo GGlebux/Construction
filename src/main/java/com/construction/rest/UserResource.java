@@ -1,4 +1,4 @@
-package com.construction.web.rest;
+package com.construction.rest;
 
 import com.construction.config.Constants;
 import com.construction.models.User;
@@ -6,9 +6,9 @@ import com.construction.repository.UserRepository;
 import com.construction.service.MailService;
 import com.construction.service.UserService;
 import com.construction.dto.AdminUserDTO;
-import com.construction.web.rest.errors.BadRequestAlertException;
-import com.construction.web.rest.errors.EmailAlreadyUsedException;
-import com.construction.web.rest.errors.LoginAlreadyUsedException;
+import com.construction.rest.errors.BadRequestAlertException;
+import com.construction.rest.errors.EmailAlreadyUsedException;
+import com.construction.rest.errors.LoginAlreadyUsedException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import java.net.URI;

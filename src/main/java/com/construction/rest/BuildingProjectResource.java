@@ -1,4 +1,4 @@
-package com.construction.web.rest;
+package com.construction.rest;
 
 import com.construction.criteria.BuildingProjectCriteria;
 import com.construction.dto.BuildingProjectDTO;
@@ -6,7 +6,7 @@ import com.construction.dto.FullProjectDTO;
 import com.construction.repository.BuildingProjectRepository;
 import com.construction.service.BuildingProjectQueryService;
 import com.construction.service.BuildingProjectService;
-import com.construction.web.rest.errors.BadRequestAlertException;
+import com.construction.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;

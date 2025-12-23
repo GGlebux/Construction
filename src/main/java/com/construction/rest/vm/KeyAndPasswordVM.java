@@ -1,4 +1,4 @@
-package com.construction.web.rest.vm;
+package com.construction.rest.vm;
 
 /**
  * View Model object for storing the user's key and password.

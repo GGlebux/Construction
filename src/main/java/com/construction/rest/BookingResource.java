@@ -1,4 +1,4 @@
-package com.construction.web.rest;
+package com.construction.rest;
 
 import com.construction.dto.SimpleBookingDTO;
 import com.construction.repository.BookingRepository;
@@ -6,7 +6,7 @@ import com.construction.service.BookingQueryService;
 import com.construction.service.BookingService;
 import com.construction.criteria.BookingCriteria;
 import com.construction.dto.BookingDTO;
-import com.construction.web.rest.errors.BadRequestAlertException;
+import com.construction.rest.errors.BadRequestAlertException;
 import io.undertow.util.BadRequestException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

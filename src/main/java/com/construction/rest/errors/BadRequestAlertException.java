@@ -1,4 +1,4 @@
-package com.construction.web.rest.errors;
+package com.construction.rest.errors;
 
 import java.net.URI;
 import org.springframework.http.HttpStatus;

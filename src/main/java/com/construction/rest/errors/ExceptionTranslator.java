@@ -1,4 +1,4 @@
-package com.construction.web.rest.errors;
+package com.construction.rest.errors;
 
 import static org.springframework.core.annotation.AnnotatedElementUtils.findMergedAnnotation;
 

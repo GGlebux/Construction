@@ -1,9 +1,9 @@
-package com.construction.web.rest;
+package com.construction.rest;
 
 import com.construction.repository.PhotoRepository;
 import com.construction.service.PhotoService;
 import com.construction.dto.PhotoDTO;
-import com.construction.web.rest.errors.BadRequestAlertException;
+import com.construction.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;

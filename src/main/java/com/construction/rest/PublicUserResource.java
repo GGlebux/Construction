@@ -1,4 +1,4 @@
-package com.construction.web.rest;
+package com.construction.rest;
 
 import com.construction.service.UserService;
 import com.construction.dto.UserDTO;

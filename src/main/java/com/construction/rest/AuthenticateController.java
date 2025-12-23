@@ -1,9 +1,9 @@
-package com.construction.web.rest;
+package com.construction.rest;
 
 import static com.construction.security.SecurityUtils.AUTHORITIES_KEY;
 import static com.construction.security.SecurityUtils.JWT_ALGORITHM;
 
-import com.construction.web.rest.vm.LoginVM;
+import com.construction.rest.vm.LoginVM;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

@@ -1,8 +1,8 @@
-package com.construction.web.rest;
+package com.construction.rest;
 
 import com.construction.models.Authority;
 import com.construction.repository.AuthorityRepository;
-import com.construction.web.rest.errors.BadRequestAlertException;
+import com.construction.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;

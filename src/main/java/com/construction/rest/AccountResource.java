@@ -1,15 +1,18 @@
-package com.construction.web.rest;
+package com.construction.rest;
 
+import com.construction.dto.EmailDTO;
 import com.construction.models.User;
 import com.construction.repository.UserRepository;
+import com.construction.rest.errors.EmailAlreadyUsedException;
+import com.construction.rest.errors.InvalidPasswordException;
+import com.construction.rest.errors.LoginAlreadyUsedException;
 import com.construction.security.SecurityUtils;
 import com.construction.service.MailService;
 import com.construction.service.UserService;
 import com.construction.dto.AdminUserDTO;
 import com.construction.dto.PasswordChangeDTO;
-import com.construction.web.rest.errors.*;
-import com.construction.web.rest.vm.KeyAndPasswordVM;
-import com.construction.web.rest.vm.ManagedUserVM;
+import com.construction.rest.vm.KeyAndPasswordVM;
+import com.construction.rest.vm.ManagedUserVM;
 import jakarta.validation.Valid;
 import java.util.*;
 import org.apache.commons.lang3.StringUtils;
@@ -140,8 +143,8 @@ public class AccountResource {
      * @param mail the mail of the user.
      */
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String mail) {
-        Optional<User> user = userService.requestPasswordReset(mail);
+    public void requestPasswordReset(@RequestBody EmailDTO mail) {
+        Optional<User> user = userService.requestPasswordReset(mail.getEmail());
         if (user.isPresent()) {
             mailService.sendPasswordResetMail(user.orElseThrow());
         } else {
